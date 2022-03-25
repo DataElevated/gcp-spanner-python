@@ -14,7 +14,7 @@ You can run the demo locally with a few easy steps.
 1. Clone the repository
 
 ```bash
-git clone ?
+git clone https://github.com/DataElevated/gcp-spanner-python.git
 ```
 
 2. Change the working directory
