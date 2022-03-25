@@ -23,7 +23,13 @@ git clone https://github.com/DataElevated/gcp-spanner-python.git
 conda create --name gcp-spanner-python --clone base
 ```
 
-3. Install dependencies
+3. Activate the environment
+
+```bash
+conda activate gcp-spanner-python
+```
+
+4. Install dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -38,7 +44,7 @@ pip install -r requirements.txt
 5. Run the app
 
 ```bash
-npm run dev # or, yarn dev
+
 ```
 
 That's All!!! Now open [localhost:3000](http://localhost:3000/) to see the app.
