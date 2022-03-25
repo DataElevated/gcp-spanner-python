@@ -17,16 +17,16 @@ You can run the demo locally with a few easy steps.
 git clone https://github.com/DataElevated/gcp-spanner-python.git
 ```
 
-2. Change the working directory
+2. Create Anaconda Python Environment
 
 ```bash
-TODO
+conda create --name gcp-spanner-python --clone base
 ```
 
 3. Install dependencies
 
 ```bash
--- TODO
+pip install -r requirements.txt
 ```
 
 4. Create `.env` file in root and add your variables
