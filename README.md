@@ -20,7 +20,7 @@ git clone https://github.com/DataElevated/gcp-spanner-python.git
 2. Change the working directory
 
 ```bash
-cd tryshape
+TODO
 ```
 
 3. Install dependencies
