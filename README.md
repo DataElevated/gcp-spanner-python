@@ -60,3 +60,10 @@ Demo has the potentials to grow further. Here are some of the upcoming features 
 
 - ✔️ Add the ability to time different transactions.
 - ✔️ Add the ability to create sample data.
+
+# PowerShell and Google SDK
+## In SDK
+gsutil ls -lR gs://ddoctest/data/1-staged/Production/Transactions |findstr TOTAL
+
+## PowerShell
+PS E:\Project\Spanner\Phase1\Data\1-staged\Production\Transactions> (Get-ChildItem -File *.csv | Measure-Object).Count
