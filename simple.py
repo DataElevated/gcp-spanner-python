@@ -4,8 +4,6 @@ from tracemalloc import Snapshot
 from typing import List
 from google.cloud import spanner
 from google.cloud.spanner_v1 import session
-import google.cloud.spanner_admin_instance_v1
-#from google.cloud.spanner_v1 import param_types
 from google.oauth2 import service_account
 from google.cloud import spanner_v1
 
