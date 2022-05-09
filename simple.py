@@ -1,7 +1,13 @@
 #from typing import final
+from ast import With
+from tracemalloc import Snapshot
+from typing import List
 from google.cloud import spanner
+from google.cloud.spanner_v1 import session
+import google.cloud.spanner_admin_instance_v1
 #from google.cloud.spanner_v1 import param_types
 from google.oauth2 import service_account
+from google.cloud import spanner_v1
 
 
 credentials = service_account.Credentials.from_service_account_file(
@@ -9,13 +15,16 @@ credentials = service_account.Credentials.from_service_account_file(
 
 # Instantiate Spanner Client
 SpannerClient = spanner.Client()
-InstanceID = 'sandbox'
+InstanceID = 'production'
 Instance = SpannerClient.instance(InstanceID)
 Instance
 
 DatabaseID = 'account'
 Database = Instance.database(DatabaseID)
 Database
+Session = session.Session(DatabaseID)
+print(Session)
+
 
 def GetTopQueries():
     with Database.snapshot() as snapshot:
@@ -89,9 +98,51 @@ def UpdateInstance():
     Results = Operation.result()
     print(Results)
 
+def GetInstanceNodes():
+    Instance.reload()
+    Results = Instance.node_count
+    print(Results)
+
+# [START spanner_list_databases]
+def ListSpannerDatabases(instance_id, database_id):
+    """Lists databases and their leader options."""
+    spanner_client = spanner.Client()
+    instance = spanner_client.instance(instance_id)
+    
+    databases = list(instance.list_databases())
+    for MyDatabase in databases:
+        return(MyDatabase.name)
+# [END spanner_list_databases]
+
+def DeleteSpannerSessions(MyDb):
+    # Create a client
+    client = spanner_v1.SpannerClient()
+
+    # Initialize request argument(s)
+    request = spanner_v1.ListSessionsRequest(
+        database=MyDb,
+    )
+
+    # Make the request
+    page_result = client.list_sessions(request=request)
+
+    # Handle the response
+    for response in page_result:
+        print('Deleting: {}'.format(response.name))
+        delrequest = spanner_v1.DeleteSessionRequest(
+            name=response.name,
+            )
+        client.delete_session(request=delrequest)
+        
+        
+
+        
+
 if __name__ == '__main__':
     #Result = GetTopQueries()
     #print(Result)
-    UpdateInstance()
+    #GetInstanceNodes()
+    MyDatabaseID = ListSpannerDatabases('production', 'account')
+    DeleteSpannerSessions(MyDatabaseID)
     #GetFailedTransactions()
     #GetFailedTransactionsCount()
