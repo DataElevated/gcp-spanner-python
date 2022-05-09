@@ -133,10 +133,6 @@ def DeleteSpannerSessions(MyDb):
             name=response.name,
             )
         client.delete_session(request=delrequest)
-        
-        
-
-        
 
 if __name__ == '__main__':
     #Result = GetTopQueries()
