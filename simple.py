@@ -7,12 +7,12 @@ from google.cloud.spanner_v1 import session
 from google.oauth2 import service_account
 from google.cloud import spanner_v1
 
+TempMyCreds = service_account.Credentials.from_service_account_file('gcp.json')
 
-credentials = service_account.Credentials.from_service_account_file(
-    './digitalcore-poc-67645bca1a2a.json')
 
 # Instantiate Spanner Client
-SpannerClient = spanner.Client()
+SpannerClient = spanner.Client(credentials=TempMyCreds)
+
 InstanceID = 'production'
 Instance = SpannerClient.instance(InstanceID)
 Instance
@@ -22,6 +22,7 @@ Database = Instance.database(DatabaseID)
 Database
 Session = session.Session(DatabaseID)
 print(Session)
+#sys.exit(0)
 
 
 def GetTopQueries():
@@ -102,19 +103,22 @@ def GetInstanceNodes():
     print(Results)
 
 # [START spanner_list_databases]
-def ListSpannerDatabases(instance_id, database_id):
+def ListSpannerDatabases(instance_id, database_id, SpannerClient):
     """Lists databases and their leader options."""
-    spanner_client = spanner.Client()
+    #TempMyCreds = service_account.Credentials.from_service_account_file('gcp.json')
+    spanner_client = SpannerClient
     instance = spanner_client.instance(instance_id)
     
     databases = list(instance.list_databases())
     for MyDatabase in databases:
+        print(MyDatabase.name)
         return(MyDatabase.name)
 # [END spanner_list_databases]
 
-def DeleteSpannerSessions(MyDb):
+def DeleteSpannerSessions(MyDb, MyCreds):
     # Create a client
-    client = spanner_v1.SpannerClient()
+    #TempMyCreds = service_account.Credentials.from_service_account_file('gcp.json')
+    client = spanner_v1.SpannerClient(credentials=MyCreds)
 
     # Initialize request argument(s)
     request = spanner_v1.ListSessionsRequest(
@@ -136,7 +140,7 @@ if __name__ == '__main__':
     #Result = GetTopQueries()
     #print(Result)
     #GetInstanceNodes()
-    MyDatabaseID = ListSpannerDatabases('production', 'account')
-    DeleteSpannerSessions(MyDatabaseID)
+    MyDatabaseID = ListSpannerDatabases('production', 'account', SpannerClient=SpannerClient)
+    DeleteSpannerSessions(MyDatabaseID, MyCreds=TempMyCreds)
     #GetFailedTransactions()
     #GetFailedTransactionsCount()
