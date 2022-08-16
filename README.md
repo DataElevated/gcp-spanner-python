@@ -7,6 +7,7 @@ You can do the followings with it:
 
 ## Transaction type
  - List out...
+ - Updates
 
 # How to set up demo?
 You can run the demo locally with a few easy steps.
